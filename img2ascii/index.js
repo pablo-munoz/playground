@@ -8,9 +8,9 @@ imageInput.addEventListener("change", handleImageUpload);
 function handleImageUpload() {
   const file = this.files[0];
   const reader = new FileReader();
-  reader.onload = function() {
+  reader.onload = function () {
     const image = new Image();
-    image.onload = function() {
+    image.onload = function () {
       canvas.width = image.width;
       canvas.height = image.height;
       context.drawImage(image, 0, 0);

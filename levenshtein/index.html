@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Distance Calculator</title>
+</head>
+
+<body>
+    <h1>Edit Distance Calculator</h1>
+    <form id="edit-distance-form">
+        <label for="word1">Word 1:</label>
+        <input type="text" id="word1" name="word1" required>
+        <br><br>
+        <label for="word2">Word 2:</label>
+        <input type="text" id="word2" name="word2" required>
+        <br><br>
+        <input type="submit" value="Calculate Edit Distance">
+    </form>
+    <h2 id="result"></h2>
+
+    <script>
+        function levenshteinDistance(word1, word2) {
+            const len1 = word1.length;
+            const len2 = word2.length;
+            const matrix = [];
+
+            for (let i = 0; i <= len1; i++) {
+                matrix[i] = [i];
+            }
+
+            for (let j = 0; j <= len2; j++) {
+                matrix[0][j] = j;
+            }
+
+            for (let i = 1; i <= len1; i++) {
+                for (let j = 1; j <= len2; j++) {
+                    if (word1[i - 1] === word2[j - 1]) {
+                        matrix[i][j] = matrix[i - 1][j - 1];
+                    } else {
+                        matrix[i][j] = Math.min(matrix[i - 1][j - 1] + 1, matrix[i - 1][j] + 1, matrix[i][j - 1] + 1);
+                    }
+                }
+            }
+
+            return matrix[len1][len2];
+        }
+
+        document.getElementById('edit-distance-form').addEventListener('submit', (event) => {
+            event.preventDefault();
+            const word1 = document.getElementById('word1').value;
+            const word2 = document.getElementById('word2').value;
+            const editDistance = levenshteinDistance(word1, word2);
+            document.getElementById('result').textContent = 'Edit Distance: ' + editDistance;
+        });
+    </script>
+</body>
+
+</html>
