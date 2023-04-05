@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Merge Sort Visualization</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas" width="500" height="300"></canvas>
+
+    <script>
+        // define the array of elements to be sorted
+        var arr = [8, 3, 6, 2, 7, 1, 5, 4];
+
+        // set up the canvas context
+        var canvas = document.getElementById("canvas");
+        var ctx = canvas.getContext("2d");
+        var barWidth = canvas.width / arr.length;
+
+        // define the colors for the bars and background
+        var bgColor = "#f5f5f5";
+        var barColor = "#007bff";
+        var barHighlight = "#ffc107";
+
+        // draw the initial state of the array
+        drawArray();
+
+        // perform the merge sort algorithm
+        mergeSort(arr, 0, arr.length - 1);
+
+        // function to perform the merge sort algorithm
+        function mergeSort(arr, left, right) {
+            if (left < right) {
+                var mid = Math.floor((left + right) / 2);
+                mergeSort(arr, left, mid);
+                mergeSort(arr, mid + 1, right);
+                merge(arr, left, mid, right);
+            }
+        }
+
+        // function to merge two subarrays into a single sorted array
+        function merge(arr, left, mid, right) {
+            var temp = [];
+            var i = left;
+            var j = mid + 1;
+            var k = 0;
+
+            while (i <= mid && j <= right) {
+                if (arr[i] < arr[j]) {
+                    temp[k] = arr[i];
+                    i++;
+                } else {
+                    temp[k] = arr[j];
+                    j++;
+                }
+                k++;
+            }
+
+            while (i <= mid) {
+                temp[k] = arr[i];
+                i++;
+                k++;
+            }
+
+            while (j <= right) {
+                temp[k] = arr[j];
+                j++;
+                k++;
+            }
+
+            for (var l = 0; l < k; l++) {
+                arr[left + l] = temp[l];
+            }
+
+            drawArray(i, j);
+        }
+
+        // function to draw the current state of the array
+        function drawArray(currentI, currentJ) {
+            ctx.fillStyle = bgColor;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            for (var i = 0; i < arr.length; i++) {
+                ctx.fillStyle = (i == currentI || i == currentJ) ? barHighlight : barColor;
+                ctx.fillRect(i * barWidth, canvas.height - arr[i] * 20, barWidth, arr[i] * 20);
+            }
+        }
+    </script>
+</body>
+
+</html>
