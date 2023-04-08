@@ -1,3 +1,4 @@
+// q: explain SOLID principle
 const container = d3.select("#canvasContainer");
 const canvas = container.append("canvas").node();
 const context = canvas.getContext("2d");
@@ -51,3 +52,4 @@ function getBrightness(imageData) {
   }
   return brightness / (imageData.data.length / 4);
 }
+
